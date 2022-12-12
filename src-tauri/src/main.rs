@@ -3,9 +3,13 @@
     windows_subsystem = "windows"
 )]
 
+mod mod_host_file;
+
 use std::fs;
 use std::fs::File;
 use std::io::Write;
+use std::io::{self, prelude::*, BufReader};
+use mod_host_file::mod_host_file::*;
 
 const DEFAULT_HOST_FILE_PATH: &str = "C:\\Windows\\System32\\drivers\\etc\\hosts";
 
@@ -23,6 +27,16 @@ fn read_host_file() -> String {
 }
 
 #[tauri::command]
+fn read_host_file_lines() -> Vec<String> {
+    let mut lines = Vec::new();
+    let buf_reader = get_host_file_bufreader();
+    for line in buf_reader.lines() {
+        lines.push(line.unwrap());
+    }
+    return lines;
+}
+
+#[tauri::command]
 fn save_host_file(host_content: &str) -> bool {
     let save_result = save_content_host_file(host_content);
     match save_result {
@@ -35,16 +49,9 @@ fn save_host_file(host_content: &str) -> bool {
     }
 }
 
-fn save_content_host_file(content: &str) -> std::io::Result<()> {
-    let mut f = File::options().write(true).truncate(true).open(DEFAULT_HOST_FILE_PATH)?;
-    f.write_all(content.to_string().as_bytes())?;
-    f.sync_data()?;
-    Ok(())
-}
-
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![read_host_file, save_host_file])
+        .invoke_handler(tauri::generate_handler![read_host_file, read_host_file_lines, save_host_file])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -7,7 +7,7 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "host-editor",
+    "productName": "windows-tool-set",
     "version": "0.1.0"
   },
   "tauri": {
@@ -58,7 +58,7 @@
         "fullscreen": false,
         "height": 600,
         "resizable": true,
-        "title": "Host Editor",
+        "title": "Windows Toolset",
         "width": 800
       }
     ]

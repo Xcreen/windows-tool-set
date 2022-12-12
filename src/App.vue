@@ -1,5 +1,6 @@
 <script setup>
 import HostFile from './components/HostFile.vue';
+import HostFileEditor from './components/HostFileEditor.vue';
 </script>
 
 <template>
@@ -26,7 +27,9 @@ import HostFile from './components/HostFile.vue';
       <div class="tab-pane show active" id="host-tab-pane" role="tabpanel" aria-labelledby="host-tab" tabindex="0">
         <HostFile />
       </div>
-      <div class="tab-pane " id="host-entries-tab-pane" role="tabpanel" aria-labelledby="host-entries-tab" tabindex="0">Coming soon ...</div>
+      <div class="tab-pane " id="host-entries-tab-pane" role="tabpanel" aria-labelledby="host-entries-tab" tabindex="0">
+        <HostFileEditor />
+      </div>
       <div class="tab-pane " id="environment-variables-tab-pane" role="tabpanel" aria-labelledby="environment-variables-tab" tabindex="0">Coming soon ...</div>
     </div>
 
