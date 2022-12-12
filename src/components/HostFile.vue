@@ -26,7 +26,6 @@ export default {
         errorToast.querySelector('.toast-body').innerText = 'Failed to save file!';
         errorToast.classList.add('show');
       }
-      console.log('Saved!', saveResult)
     }
   }
 }
@@ -45,6 +44,6 @@ export default {
   }
 
   textarea {
-    min-height: 400px;
+    min-height: 450px;
   }
 </style>
