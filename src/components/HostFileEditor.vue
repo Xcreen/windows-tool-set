@@ -13,22 +13,25 @@ export default {
   },
 
   async mounted() {
-    const hostFileLines = await invoke("read_host_file_lines", {});
-    this.cleanLines = [];
-    hostFileLines.forEach((line, index) => {
-      const tmpLine = line.trim();
-      if(tmpLine.length > 0 && !tmpLine.startsWith('#')) {
-        const tmpData = {};
-        tmpData.originalLine = line;
-        tmpData.cleanLine = tmpLine;
-        tmpData.lineNumber = index + 1;
-        this.cleanLines.push(tmpData);
-      }
-    });
+    await this.readHostLines();
   },
 
   methods: {
-    addHostEntry() {
+    async readHostLines() {
+      const hostFileLines = await invoke("read_host_file_lines", {});
+      this.cleanLines = [];
+      hostFileLines.forEach((line, index) => {
+        const tmpLine = line.trim();
+        if(tmpLine.length > 0 && !tmpLine.startsWith('#')) {
+          const tmpData = {};
+          tmpData.originalLine = line;
+          tmpData.cleanLine = tmpLine;
+          tmpData.lineNumber = index + 1;
+          this.cleanLines.push(tmpData);
+        }
+      });
+    },
+    async addHostEntry() {
       let ip = '127.0.0.1';
       if(this.inputAddIP.trim().length > 0) {
         ip = this.inputAddIP.trim();
@@ -41,13 +44,21 @@ export default {
         hostLine += ' # ' + this.inputAddDescription.trim();
       }
 
-      
+      let saveResult = await invoke("append_entry_to_host_file", { newLine: hostLine });
 
       document.querySelector('#add-entry-modal .btn-close').click();
 
-      const successToast = document.getElementById('success-toast');
-      successToast.querySelector('.toast-body').innerText = 'Added Host-Entry!';
-      successToast.classList.add('show');
+      if(saveResult) {
+        const successToast = document.getElementById('success-toast');
+        successToast.querySelector('.toast-body').innerText = 'Added Host-Entry!';
+        successToast.classList.add('show');
+        await this.readHostLines();
+      }
+      else {
+        let errorToast = document.getElementById('error-toast');
+        errorToast.querySelector('.toast-body').innerText = 'Failed to save file!';
+        errorToast.classList.add('show');
+      }
     }
   }
 }

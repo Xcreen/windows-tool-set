@@ -49,9 +49,16 @@ fn save_host_file(host_content: &str) -> bool {
     }
 }
 
+
+#[tauri::command]
+fn append_entry_to_host_file(new_line: &str) -> bool {
+    let new_host_content = read_host_file() + "\n" + new_line;
+    return save_host_file(new_host_content.as_str());
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![read_host_file, read_host_file_lines, save_host_file])
+        .invoke_handler(tauri::generate_handler![read_host_file, read_host_file_lines, save_host_file, append_entry_to_host_file])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
