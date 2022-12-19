@@ -34,7 +34,9 @@ export default {
 <template>
   <div class="host-file-wrapper">
     <textarea class="form-control mt-2" v-model="hostContent"></textarea>
-    <button class="btn btn-success w-100 mt-2" v-bind:class="{ disabled: (hostContent.length === 0) }" @click="save">Save</button>
+    <button class="btn btn-success w-100 mt-2" v-bind:class="{ disabled: (hostContent.length === 0) }" @click="save">
+      <i class="fa-solid fa-check"></i> Save
+    </button>
   </div>
 </template>
 

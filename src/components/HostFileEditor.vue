@@ -122,7 +122,9 @@ export default {
   <button id="open-delete-modal-button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete-entry-modal">Open Delete-Modal</button>
 
   <div class="host-file-entry-wrapper">
-    <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#add-entry-modal">Add Host-Entry</button>
+    <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#add-entry-modal">
+      <i class="fa-solid fa-plus"></i> Add Host-Entry
+    </button>
     <div class="row mt-3">
       <div class="col-sm-3">
         <label>IP</label>
@@ -184,7 +186,10 @@ export default {
           </div>
         </div>
         <div class="modal-footer">
-          <button @click="addHostEntry" class="btn btn-primary">Add entry</button>
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button @click="addHostEntry" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Add entry
+          </button>
         </div>
       </div>
     </div>
@@ -202,7 +207,10 @@ export default {
           You really want to delete this entry?
         </div>
         <div class="modal-footer">
-          <button @click="deleteHostEntry" class="btn btn-primary">Delete entry</button>
+          <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+          <button @click="deleteHostEntry" class="btn btn-danger">
+            <i class="fa-solid fa-trash"></i> Delete entry
+          </button>
         </div>
       </div>
     </div>
