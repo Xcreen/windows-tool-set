@@ -24,7 +24,7 @@ pub mod mod_host_file {
         }
     }
 
-    pub fn save_content_host_file(content: &str) -> std::io::Result<()> {
+    pub fn save_content_host_file(content: &str) -> io::Result<()> {
         let mut f = File::options().write(true).truncate(true).open(DEFAULT_HOST_FILE_PATH)?;
         f.write_all(content.to_string().as_bytes())?;
         f.sync_data()?;

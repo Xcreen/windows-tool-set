@@ -56,9 +56,33 @@ fn append_entry_to_host_file(new_line: &str) -> bool {
     return save_host_file(new_host_content.as_str());
 }
 
+#[tauri::command]
+fn delete_entry_from_host_file(delete_line: i32) -> bool {
+    let mut lines = Vec::new();
+    let mut line_counter = 1;
+    let mut new_host_content = String::new();
+    let buf_reader = get_host_file_bufreader();
+    for line in buf_reader.lines() {
+        if line_counter != delete_line {
+            lines.push(line.unwrap() + "\n");
+        }
+        line_counter += 1;
+    }
+    for line in lines {
+        new_host_content.push_str(line.as_str());
+    }
+
+    return save_host_file(new_host_content.as_str());
+}
+
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![read_host_file, read_host_file_lines, save_host_file, append_entry_to_host_file])
-        .run(tauri::generate_context!())
+        .invoke_handler(tauri::generate_handler![
+            read_host_file,
+            read_host_file_lines,
+            save_host_file,
+            append_entry_to_host_file,
+            delete_entry_from_host_file
+        ]).run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

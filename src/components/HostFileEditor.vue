@@ -11,7 +11,8 @@ export default {
       inputEditIPs: [],
       inputEditDomain: [],
       inputEditDescription: [],
-      cleanLines: []
+      cleanLines: [],
+      deleteLineNo: -1
     }
   },
 
@@ -87,15 +88,42 @@ export default {
         errorToast.querySelector('.toast-body').innerText = 'Failed to save file!';
         errorToast.classList.add('show');
       }
+    },
+    async editHostEntry(lineNumber) {
+      console.log(lineNumber)
+    },
+    async confirmDeleteHostEntry(lineNumber) {
+      this.deleteLineNo = lineNumber;
+      document.getElementById('open-delete-modal-button').click();
+    },
+    async deleteHostEntry() {
+      let saveResult = await invoke("delete_entry_from_host_file", { deleteLine: this.deleteLineNo });
+
+      if(saveResult) {
+        const successToast = document.getElementById('success-toast');
+        successToast.querySelector('.toast-body').innerText = 'Removed Host-Entry!';
+        successToast.classList.add('show');
+        await this.readHostLines();
+      }
+      else {
+        let errorToast = document.getElementById('error-toast');
+        errorToast.querySelector('.toast-body').innerText = 'Failed to remove entry!';
+        errorToast.classList.add('show');
+      }
+
+      await this.readHostLines();
+      document.querySelector('#delete-entry-modal .btn-close').click();
     }
   }
 }
 </script>
 
 <template>
+  <button id="open-delete-modal-button" class="d-none" data-bs-toggle="modal" data-bs-target="#delete-entry-modal">Open Delete-Modal</button>
+
   <div class="host-file-entry-wrapper">
     <button class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#add-entry-modal">Add Host-Entry</button>
-    <div class="row">
+    <div class="row mt-3">
       <div class="col-sm-3">
         <label>IP</label>
       </div>
@@ -116,6 +144,14 @@ export default {
       </div>
       <div class="col-sm-3">
         <input type="text" class="form-control" v-model="inputEditDescription[index]">
+      </div>
+      <div class="col-sm-3">
+        <button @click="editHostEntry(line.lineNumber)" class="btn btn-success">
+          <i class="fa-solid fa-check"></i>
+        </button>
+        <button @click="confirmDeleteHostEntry(line.lineNumber)" class="btn btn-danger ms-2">
+          <i class="fa-solid fa-trash"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -149,6 +185,24 @@ export default {
         </div>
         <div class="modal-footer">
           <button @click="addHostEntry" class="btn btn-primary">Add entry</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete-Entry-Modal -->
+  <div class="modal fade" id="delete-entry-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5">Delete Host-Entry</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          You really want to delete this entry?
+        </div>
+        <div class="modal-footer">
+          <button @click="deleteHostEntry" class="btn btn-primary">Delete entry</button>
         </div>
       </div>
     </div>
