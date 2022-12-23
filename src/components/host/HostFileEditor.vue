@@ -78,15 +78,11 @@ export default {
       document.querySelector('#add-entry-modal .btn-close').click();
 
       if(saveResult) {
-        const successToast = document.getElementById('success-toast');
-        successToast.querySelector('.toast-body').innerText = 'Added Host-Entry!';
-        successToast.classList.add('show');
+        this.emitter.emit('showToastEvent', { type: 'success', message: 'Added Host-Entry!'});
         await this.readHostLines();
       }
       else {
-        let errorToast = document.getElementById('error-toast');
-        errorToast.querySelector('.toast-body').innerText = 'Failed to save file!';
-        errorToast.classList.add('show');
+        this.emitter.emit('showToastEvent', { type: 'error', message: 'Failed to save file!'});
       }
     },
     async editHostEntry(lineNumber) {
@@ -100,15 +96,11 @@ export default {
       let saveResult = await invoke("delete_entry_from_host_file", { deleteLine: this.deleteLineNo });
 
       if(saveResult) {
-        const successToast = document.getElementById('success-toast');
-        successToast.querySelector('.toast-body').innerText = 'Removed Host-Entry!';
-        successToast.classList.add('show');
+        this.emitter.emit('showToastEvent', { type: 'success', message: 'Removed Host-Entry!'});
         await this.readHostLines();
       }
       else {
-        let errorToast = document.getElementById('error-toast');
-        errorToast.querySelector('.toast-body').innerText = 'Failed to remove entry!';
-        errorToast.classList.add('show');
+        this.emitter.emit('showToastEvent', { type: 'error', message: 'Failed to remove entry!'});
       }
 
       await this.readHostLines();

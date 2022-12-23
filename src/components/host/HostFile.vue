@@ -17,14 +17,10 @@ export default {
     async save() {
       let saveResult = await invoke("save_host_file", { hostContent: this.hostContent });
       if(saveResult) {
-        let successToast = document.getElementById('success-toast');
-        successToast.querySelector('.toast-body').innerText = 'Saved file!';
-        successToast.classList.add('show');
+        this.emitter.emit('showToastEvent', { type: 'success', message: 'Saved file!'});
       }
       else {
-        let errorToast = document.getElementById('error-toast');
-        errorToast.querySelector('.toast-body').innerText = 'Failed to save file!';
-        errorToast.classList.add('show');
+        this.emitter.emit('showToastEvent', { type: 'error', message: 'Failed to save file!'});
       }
     }
   }
