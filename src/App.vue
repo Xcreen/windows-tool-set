@@ -4,10 +4,10 @@ import MainFrame from './components/MainFrame.vue';
 </script>
 
 <template>
-  <Navigation />
+  <Navigation ref="navigationRef" @switch-event="switchComponent" />
 
   <div id="main-container">
-    <MainFrame />
+    <MainFrame :currentFrame="currentFrame" />
 
     <div class="toast-container position-fixed bottom-0 end-0 p-3">
       <div id="success-toast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
@@ -25,6 +25,27 @@ import MainFrame from './components/MainFrame.vue';
     </div>
   </div>
 </template>
+
+<script>
+import {ref} from 'vue';
+
+const navigationRef = ref();
+
+export default {
+  name: 'App',
+  data() {
+    return {
+      currentFrame: 'HostWrapper'
+    }
+  },
+  methods: {
+    switchComponent(menuItem) {
+      this.currentFrame = menuItem;
+      navigationRef.value.closeMenu();
+    }
+  }
+}
+</script>
 
 <style scoped>
   #main-container {

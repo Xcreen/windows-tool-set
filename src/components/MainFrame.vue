@@ -1,19 +1,16 @@
-<script setup>
-import HostWrapper from './host/HostWrapper.vue';
-</script>
-
 <template>
-  <HostWrapper v-if="currentFrame === 'HostWrapper'" />
+  <component :is="currentFrame" />
 </template>
 
 <script>
+import HostWrapper from './host/HostWrapper.vue';
+
 export default {
   name: "MainFrame",
-  data() {
-    return {
-      currentFrame: 'HostWrapper'
-    }
+  components: {
+    HostWrapper,
   },
+  props: ['currentFrame']
 }
 </script>
 
