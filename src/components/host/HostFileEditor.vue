@@ -17,10 +17,17 @@ export default {
   },
 
   async mounted() {
+    this.emitter.on('refreshHostEntries', () => {
+      this.readHostLines();
+    });
+
     await this.readHostLines();
   },
 
   methods: {
+    async refreshData() {
+      this.emitter.emit('refreshHostDataEvent');
+    },
     async readHostLines() {
       const hostFileLines = await invoke("read_host_file_lines", {});
       this.cleanLines = [];
@@ -79,7 +86,7 @@ export default {
 
       if(saveResult) {
         this.emitter.emit('showToastEvent', { type: 'success', message: 'Added Host-Entry!'});
-        await this.readHostLines();
+        await this.refreshData();
       }
       else {
         this.emitter.emit('showToastEvent', { type: 'error', message: 'Failed to save file!'});
@@ -101,7 +108,7 @@ export default {
       let saveResult = await invoke('edit_host_line', { lineNo: lineNumber, newHostEntry: hostLine });
       if(saveResult) {
         this.emitter.emit('showToastEvent', { type: 'success', message: 'Updated Host-Entry!'});
-        await this.readHostLines();
+        await this.refreshData();
       }
       else {
         this.emitter.emit('showToastEvent', { type: 'error', message: 'Failed to update entry!'});
@@ -116,13 +123,12 @@ export default {
 
       if(saveResult) {
         this.emitter.emit('showToastEvent', { type: 'success', message: 'Removed Host-Entry!'});
-        await this.readHostLines();
       }
       else {
         this.emitter.emit('showToastEvent', { type: 'error', message: 'Failed to remove entry!'});
       }
 
-      await this.readHostLines();
+      await this.refreshData();
       document.querySelector('#delete-entry-modal .btn-close').click();
     }
   }

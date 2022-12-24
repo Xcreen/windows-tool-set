@@ -29,7 +29,13 @@ import HostFileEditor from './HostFileEditor.vue';
 
 <script>
 export default {
-  name: "HostWrapper"
+  name: 'HostWrapper',
+  mounted() {
+    this.emitter.on('refreshHostDataEvent', () => {
+      this.emitter.emit('refreshHostEntries');
+      this.emitter.emit('refreshHostFile');
+    });
+  }
 }
 </script>
 

@@ -10,6 +10,10 @@ export default {
   },
 
   async mounted() {
+    this.emitter.on('refreshHostFile', async () => {
+      this.hostContent = await invoke("read_host_file", {});
+    });
+
     this.hostContent = await invoke("read_host_file", {});
   },
 
@@ -18,6 +22,7 @@ export default {
       let saveResult = await invoke("save_host_file", { hostContent: this.hostContent });
       if(saveResult) {
         this.emitter.emit('showToastEvent', { type: 'success', message: 'Saved file!'});
+        this.emitter.emit('refreshHostDataEvent');
       }
       else {
         this.emitter.emit('showToastEvent', { type: 'error', message: 'Failed to save file!'});
