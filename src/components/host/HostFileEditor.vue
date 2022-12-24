@@ -85,8 +85,27 @@ export default {
         this.emitter.emit('showToastEvent', { type: 'error', message: 'Failed to save file!'});
       }
     },
-    async editHostEntry(lineNumber) {
-      console.log(lineNumber)
+    async editHostEntry(lineNumber, inputIndex) {
+      let ip = '127.0.0.1';
+      if(this.inputEditIPs[inputIndex].trim().length > 0) {
+        ip = this.inputEditIPs[inputIndex].trim();
+      }
+      if(this.inputEditDomain[inputIndex].trim().length === 0) {
+        return;
+      }
+      let hostLine = ip + ' ' + this.inputEditDomain[inputIndex].trim();
+      if(this.inputEditDescription[inputIndex].trim().length > 0) {
+        hostLine += ' # ' + this.inputEditDescription[inputIndex].trim();
+      }
+
+      let saveResult = await invoke('edit_host_line', { lineNo: lineNumber, newHostEntry: hostLine });
+      if(saveResult) {
+        this.emitter.emit('showToastEvent', { type: 'success', message: 'Updated Host-Entry!'});
+        await this.readHostLines();
+      }
+      else {
+        this.emitter.emit('showToastEvent', { type: 'error', message: 'Failed to update entry!'});
+      }
     },
     async confirmDeleteHostEntry(lineNumber) {
       this.deleteLineNo = lineNumber;
@@ -140,7 +159,7 @@ export default {
         <input type="text" class="form-control" v-model="inputEditDescription[index]">
       </div>
       <div class="col-sm-3">
-        <button @click="editHostEntry(line.lineNumber)" class="btn btn-success">
+        <button @click="editHostEntry(line.lineNumber, index)" class="btn btn-success">
           <i class="fa-solid fa-check"></i>
         </button>
         <button @click="confirmDeleteHostEntry(line.lineNumber)" class="btn btn-danger ms-2">
