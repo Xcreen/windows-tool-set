@@ -3,6 +3,14 @@
 </script>
 
 <template>
+  <div class="form-check">
+    <input v-model="createDataURL" @change="textChange('clear')" class="form-check-input" type="checkbox" id="data-url-checkbox">
+    <label class="form-check-label" for="data-url-checkbox">
+      Create Base64-Data-URL
+    </label>
+  </div>
+  <input v-model="dataURLMimeType" v-if="createDataURL" @keyup="textChange('clear')" class="form-control mt-1 mb-3" placeholder="Mimetype e.g. image/png" />
+
   <div class="row">
     <div class="col-sm-6">
       <label>Cleartext</label>
@@ -13,7 +21,6 @@
       <textarea v-model="base64Text" @keyup="textChange('base64')" class="form-control" rows="10"></textarea>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -22,14 +29,27 @@ export default {
   data() {
     return {
       clearText: '',
-      base64Text: ''
+      base64Text: '',
+      createDataURL: false,
+      dataURLMimeType: ''
     }
   },
   methods: {
     textChange(input) {
       if(input === 'clear') {
         try {
-          this.base64Text = window.btoa(this.clearText);
+          let dataURI = '';
+          if(this.createDataURL) {
+            dataURI = 'data:';
+            if(this.dataURLMimeType.length > 0) {
+              dataURI += this.dataURLMimeType + ';';
+            }
+            else {
+              dataURI += ',';
+            }
+          }
+
+          this.base64Text = dataURI + window.btoa(this.clearText);
         }
         catch (e) {
           console.log('Failed to convert to base64. ' + e.message);
