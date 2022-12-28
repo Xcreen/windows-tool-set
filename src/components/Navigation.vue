@@ -23,6 +23,9 @@
         <li class="nav-item">
           <a class="nav-link" href="#" @click="switchMenu('Base64Wrapper')">Base64 Encode/Decode</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="switchMenu('URLEncodeWrapper')">URL Encode/Decode</a>
+        </li>
       </ul>
     </div>
   </div>
