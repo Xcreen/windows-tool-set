@@ -18,16 +18,14 @@
           <a class="nav-link" href="#">Edit Environment-Variables</a>
         </li>-->
       </ul>
-<!--      <h5 class="mt-2">Other</h5>
+      <h5 class="mt-2">Other</h5>
       <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Base64 Encode/Decode</a>
+          <a class="nav-link" href="#" @click="switchMenu('Base64Wrapper')">Base64 Encode/Decode</a>
         </li>
-      </ul>-->
+      </ul>
     </div>
   </div>
-
-
 </template>
 
 <script>
