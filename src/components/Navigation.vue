@@ -14,9 +14,9 @@
         <li class="nav-item">
           <a class="nav-link" href="#" @click="switchMenu('HostWrapper')">Edit Host-File</a>
         </li>
-<!--        <li class="nav-item">
-          <a class="nav-link" href="#">Edit Environment-Variables</a>
-        </li>-->
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="switchMenu('PathWrapper')">Edit Path-Variables</a>
+        </li>
       </ul>
       <h5 class="mt-2">Other</h5>
       <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">

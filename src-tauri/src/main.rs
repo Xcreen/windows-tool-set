@@ -4,6 +4,7 @@
 )]
 
 mod mod_host_file;
+mod mod_registry;
 
 use std::io::{prelude::*};
 
@@ -74,6 +75,26 @@ fn edit_host_line(line_no: usize, new_host_entry: &str) -> bool {
     }
 }
 
+#[tauri::command]
+fn get_user_variables() -> Vec<String> {
+    return mod_registry::get_user_variables();
+}
+
+#[tauri::command]
+fn save_user_variables(user_path: String) -> bool {
+    let save_result = mod_registry::save_user_variables(user_path);
+    match save_result {
+        Ok(..) => {
+            return true;
+        },
+        Err(_err) => {
+            println!("{}", _err);
+            return false;
+        }
+    }
+}
+
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
@@ -82,7 +103,9 @@ fn main() {
             save_host_file,
             append_entry_to_host_file,
             delete_entry_from_host_file,
-            edit_host_line
+            edit_host_line,
+            get_user_variables,
+            save_user_variables
         ]).run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
