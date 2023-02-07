@@ -1,5 +1,6 @@
 <script setup>
 import UserPath from './UserPath.vue';
+import SystemPath from './SystemPath.vue';
 </script>
 
 <template>
@@ -21,7 +22,7 @@ import UserPath from './UserPath.vue';
       <UserPath />
     </div>
     <div class="tab-pane " id="system-variables-tab-pane" role="tabpanel" tabindex="0">
-      WIP
+      <SystemPath />
     </div>
   </div>
 </template>

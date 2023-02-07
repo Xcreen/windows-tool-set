@@ -94,6 +94,25 @@ fn save_user_variables(user_path: String) -> bool {
     }
 }
 
+#[tauri::command]
+fn get_system_variables() -> Vec<String> {
+    return mod_registry::get_system_variables();
+}
+
+#[tauri::command]
+fn save_system_variables(system_path: String) -> bool {
+    let save_result = mod_registry::save_system_variables(system_path);
+    match save_result {
+        Ok(..) => {
+            return true;
+        },
+        Err(_err) => {
+            println!("{}", _err);
+            return false;
+        }
+    }
+}
+
 
 fn main() {
     tauri::Builder::default()
@@ -105,7 +124,9 @@ fn main() {
             delete_entry_from_host_file,
             edit_host_line,
             get_user_variables,
-            save_user_variables
+            save_user_variables,
+            get_system_variables,
+            save_system_variables
         ]).run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
