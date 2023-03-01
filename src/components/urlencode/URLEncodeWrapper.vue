@@ -5,11 +5,17 @@
 <template>
   <div class="row">
     <div class="col-sm-6">
-      <label>Cleartext</label>
+      <label class="d-block">
+        Cleartext
+        <a href="#" @click="copyText('clearText')" class="copy-button float-end">Copy</a>
+      </label>
       <textarea v-model="clearText" @keyup="textChange('clear')" class="form-control" rows="10"></textarea>
     </div>
     <div class="col-sm-6">
-      <label>URL-Encode</label>
+      <label class="d-block">
+        URL-Encode
+        <a href="#" @click="copyText('urlText')" class="copy-button float-end">Copy</a>
+      </label>
       <textarea v-model="urlText" @keyup="textChange('url')" class="form-control" rows="10"></textarea>
     </div>
   </div>
@@ -25,6 +31,10 @@ export default {
     }
   },
   methods: {
+    copyText(type) {
+      let copyText = type === 'clearText' ? this.clearText: this.urlText;
+      navigator.clipboard.writeText(copyText);
+    },
     textChange(input) {
       if(input === 'clear') {
         try {
@@ -48,5 +58,7 @@ export default {
 </script>
 
 <style scoped>
-
+.copy-button {
+  text-decoration: none;
+}
 </style>

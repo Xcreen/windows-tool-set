@@ -13,11 +13,17 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <label>Cleartext</label>
+      <label class="d-block">
+        Cleartext
+        <a href="#" @click="copyText('clearText')" class="copy-button float-end">Copy</a>
+      </label>
       <textarea v-model="clearText" @keyup="textChange('clear')" class="form-control" rows="10"></textarea>
     </div>
     <div class="col-sm-6">
-      <label>Base64</label>
+      <label class="d-block">
+        Base64
+        <a href="#" @click="copyText('base64')" class="copy-button float-end">Copy</a>
+      </label>
       <textarea v-model="base64Text" @keyup="textChange('base64')" class="form-control" rows="10"></textarea>
     </div>
   </div>
@@ -35,6 +41,10 @@ export default {
     }
   },
   methods: {
+    copyText(type) {
+      let copyText = type === 'clearText' ? this.clearText: this.base64Text;
+      navigator.clipboard.writeText(copyText);
+    },
     textChange(input) {
       if(input === 'clear') {
         try {
@@ -69,5 +79,7 @@ export default {
 </script>
 
 <style scoped>
-
+.copy-button {
+  text-decoration: none;
+}
 </style>
