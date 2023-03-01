@@ -20,7 +20,7 @@ body {
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #ca0a0a;
   --bs-btn-hover-border-color: #a90707;
-  --bs-btn-focus-shadow-rgb: 49,132,253;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #ca0a0a;
   --bs-btn-active-border-color: #a90707;
@@ -37,7 +37,7 @@ body {
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: #670101;
   --bs-btn-hover-border-color: #4f0101;
-  --bs-btn-focus-shadow-rgb: 49,132,253;
+  --bs-btn-focus-shadow-rgb: 49, 132, 253;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #670101;
   --bs-btn-active-border-color: #4f0101;
@@ -45,6 +45,10 @@ body {
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: #670101;
   --bs-btn-disabled-border-color: #4f0101;
+}
+
+.btn-close:focus {
+  box-shadow: 0 0 0 0.25rem rgba(253, 13, 13, 0.25);
 }
 
 .form-control:focus {
@@ -62,10 +66,44 @@ body {
   box-shadow: 0 0 0 0.25rem rgba(253, 13, 13, 0.25);
 }
 
-
 @media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
+  body {
+    --bs-body-bg: #1a1a1a;
+    --bs-body-color: #ffffff;
+  }
+
+  .offcanvas {
+    --bs-offcanvas-bg: #1a1a1a;
+  }
+
+  .form-control {
+    color: #fff;
+    background-color: #1a1a1a;
+    border: 1px solid #ced4da;
+  }
+
+  .form-control:focus {
+    color: #fff;
+    background-color: #1a1a1a;
+    border: 1px solid #fd0d0d;
+    box-shadow: 0 0 0 0.25rem rgba(253, 13, 13, 0.25);
+  }
+
+  .btn-close {
+    color: #fff;
+  }
+
+  .nav-tabs {
+    --bs-nav-tabs-border-color: #fff;
+    --bs-nav-tabs-link-hover-border-color: #fff #fff #fff;
+    --bs-nav-tabs-link-active-color: #fd0d0d;
+    --bs-nav-tabs-link-active-bg: #1a1a1a;
+    --bs-nav-tabs-link-active-border-color: #fff #fff #fff;
+  }
+
+  .modal {
+    --bs-modal-color: #fff;
+    --bs-modal-bg: #1a1a1a;
+    --bs-modal-footer-bg: #1a1a1a;
   }
 }
