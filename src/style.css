@@ -72,6 +72,18 @@ body {
     --bs-body-color: #ffffff;
   }
 
+  ::-webkit-scrollbar {
+    background: #1a1a1a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #4f0101;
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: #1a1a1a;
+  }
+
   .offcanvas {
     --bs-offcanvas-bg: #1a1a1a;
   }
