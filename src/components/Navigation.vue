@@ -27,11 +27,22 @@
           <a class="nav-link" href="#" @click="switchMenu('URLEncodeWrapper')">URL Encode/Decode</a>
         </li>
       </ul>
+
+      <div class="position-absolute bottom-0" id="copyright-wrapper">
+        <p>
+          Created by David R. - Version 0.1.0
+          <a @click="openURL('https://github.com/Xcreen/windows-tool-set')" target="_blank" class="float-end" style="cursor: pointer;">
+            <i class="fa-brands fa-github"></i>
+          </a>
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { open } from '@tauri-apps/api/shell';
+
 export default {
   name: "Navigation",
   emits: ['switchEvent'],
@@ -41,11 +52,17 @@ export default {
     },
     closeMenu() {
       document.getElementById('btn-close-menu').click();
+    },
+    openURL(url) {
+      event.preventDefault();
+      open(url);
     }
   }
 }
 </script>
 
 <style scoped>
-
+#copyright-wrapper {
+  width: calc(100% - 30px);
+}
 </style>
